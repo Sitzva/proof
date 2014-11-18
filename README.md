@@ -1,7 +1,5 @@
 proof
 =====
 
-Proof verification
+Caml project which recognize proof in human language and verify it in caml.
 
-Project interesting !!
-Testing bitch !!
