@@ -1,0 +1,741 @@
+   0  $accept : %entry% $end
+
+   1  start : proof_file
+   2        | rule_file
+
+   3  proof_file : rule_refs proof EOF
+
+   4  rule_file : ruleList EOF
+
+   5  rule_refs : RULE_FILES idListCommaSep SEMICOLON
+
+   6  proof : PROOF COLON derivation
+
+   7  idListCommaSep : IDENTIFIER
+   8                 | IDENTIFIER COMMA idListCommaSep
+
+   9  formListCommaSep : form
+
+  10  derivationListSemicolonSep : derivation
+
+  11  sequentListSemicolonSep : sequent
+
+  12  ruleList : rule
+
+  13  rule_info : LRULEPAR IDENTIFIER RRULEPAR
+
+  14  deriv_info : LRULEPAR IDENTIFIER RRULEPAR
+
+  15  rule : RULE COLON LSQBRACE sequentListSemicolonSep RSQBRACE rule_info sequent
+  16       | RULE COLON LSQBRACE RSQBRACE rule_info sequent
+
+  17  derivation : LSQBRACE derivationListSemicolonSep RSQBRACE deriv_info sequent
+  18             | LSQBRACE RSQBRACE deriv_info sequent
+  19             | sequent
+
+  20  sequent : formListCommaSep TURNSTILE form
+  21          | TURNSTILE form
+
+  22  form : TRUE
+  23       | FALSE
+  24       | IDENTIFIER
+  25       | NOT form
+  26       | form AND form
+  27       | form OR form
+  28       | form EQUIV form
+  29       | form IMPL form
+  30       | LPAREN form RPAREN
+
+  31  %entry% : '\001' start
+
+state 0
+	$accept : . %entry% $end  (0)
+
+	'\001'  shift 1
+	.  error
+
+	%entry%  goto 2
+
+
+state 1
+	%entry% : '\001' . start  (31)
+
+	RULE  shift 3
+	RULE_FILES  shift 4
+	.  error
+
+	start  goto 5
+	proof_file  goto 6
+	rule_file  goto 7
+	rule_refs  goto 8
+	ruleList  goto 9
+	rule  goto 10
+
+
+state 2
+	$accept : %entry% . $end  (0)
+
+	$end  accept
+
+
+state 3
+	rule : RULE . COLON LSQBRACE sequentListSemicolonSep RSQBRACE rule_info sequent  (15)
+	rule : RULE . COLON LSQBRACE RSQBRACE rule_info sequent  (16)
+
+	COLON  shift 11
+	.  error
+
+
+state 4
+	rule_refs : RULE_FILES . idListCommaSep SEMICOLON  (5)
+
+	IDENTIFIER  shift 12
+	.  error
+
+	idListCommaSep  goto 13
+
+
+state 5
+	%entry% : '\001' start .  (31)
+
+	.  reduce 31
+
+
+state 6
+	start : proof_file .  (1)
+
+	.  reduce 1
+
+
+state 7
+	start : rule_file .  (2)
+
+	.  reduce 2
+
+
+state 8
+	proof_file : rule_refs . proof EOF  (3)
+
+	PROOF  shift 14
+	.  error
+
+	proof  goto 15
+
+
+state 9
+	rule_file : ruleList . EOF  (4)
+
+	EOF  shift 16
+	.  error
+
+
+state 10
+	ruleList : rule .  (12)
+
+	.  reduce 12
+
+
+state 11
+	rule : RULE COLON . LSQBRACE sequentListSemicolonSep RSQBRACE rule_info sequent  (15)
+	rule : RULE COLON . LSQBRACE RSQBRACE rule_info sequent  (16)
+
+	LSQBRACE  shift 17
+	.  error
+
+
+state 12
+	idListCommaSep : IDENTIFIER .  (7)
+	idListCommaSep : IDENTIFIER . COMMA idListCommaSep  (8)
+
+	COMMA  shift 18
+	SEMICOLON  reduce 7
+
+
+state 13
+	rule_refs : RULE_FILES idListCommaSep . SEMICOLON  (5)
+
+	SEMICOLON  shift 19
+	.  error
+
+
+state 14
+	proof : PROOF . COLON derivation  (6)
+
+	COLON  shift 20
+	.  error
+
+
+state 15
+	proof_file : rule_refs proof . EOF  (3)
+
+	EOF  shift 21
+	.  error
+
+
+state 16
+	rule_file : ruleList EOF .  (4)
+
+	.  reduce 4
+
+
+state 17
+	rule : RULE COLON LSQBRACE . sequentListSemicolonSep RSQBRACE rule_info sequent  (15)
+	rule : RULE COLON LSQBRACE . RSQBRACE rule_info sequent  (16)
+
+	IDENTIFIER  shift 22
+	LPAREN  shift 23
+	RSQBRACE  shift 24
+	TURNSTILE  shift 25
+	TRUE  shift 26
+	FALSE  shift 27
+	NOT  shift 28
+	.  error
+
+	formListCommaSep  goto 29
+	form  goto 30
+	sequentListSemicolonSep  goto 31
+	sequent  goto 32
+
+
+state 18
+	idListCommaSep : IDENTIFIER COMMA . idListCommaSep  (8)
+
+	IDENTIFIER  shift 12
+	.  error
+
+	idListCommaSep  goto 33
+
+
+state 19
+	rule_refs : RULE_FILES idListCommaSep SEMICOLON .  (5)
+
+	.  reduce 5
+
+
+state 20
+	proof : PROOF COLON . derivation  (6)
+
+	IDENTIFIER  shift 22
+	LPAREN  shift 23
+	LSQBRACE  shift 34
+	TURNSTILE  shift 25
+	TRUE  shift 26
+	FALSE  shift 27
+	NOT  shift 28
+	.  error
+
+	derivation  goto 35
+	formListCommaSep  goto 29
+	form  goto 30
+	sequent  goto 36
+
+
+state 21
+	proof_file : rule_refs proof EOF .  (3)
+
+	.  reduce 3
+
+
+state 22
+	form : IDENTIFIER .  (24)
+
+	.  reduce 24
+
+
+state 23
+	form : LPAREN . form RPAREN  (30)
+
+	IDENTIFIER  shift 22
+	LPAREN  shift 23
+	TRUE  shift 26
+	FALSE  shift 27
+	NOT  shift 28
+	.  error
+
+	form  goto 37
+
+
+state 24
+	rule : RULE COLON LSQBRACE RSQBRACE . rule_info sequent  (16)
+
+	LRULEPAR  shift 38
+	.  error
+
+	rule_info  goto 39
+
+
+state 25
+	sequent : TURNSTILE . form  (21)
+
+	IDENTIFIER  shift 22
+	LPAREN  shift 23
+	TRUE  shift 26
+	FALSE  shift 27
+	NOT  shift 28
+	.  error
+
+	form  goto 40
+
+
+state 26
+	form : TRUE .  (22)
+
+	.  reduce 22
+
+
+state 27
+	form : FALSE .  (23)
+
+	.  reduce 23
+
+
+state 28
+	form : NOT . form  (25)
+
+	IDENTIFIER  shift 22
+	LPAREN  shift 23
+	TRUE  shift 26
+	FALSE  shift 27
+	NOT  shift 28
+	.  error
+
+	form  goto 41
+
+
+state 29
+	sequent : formListCommaSep . TURNSTILE form  (20)
+
+	TURNSTILE  shift 42
+	.  error
+
+
+state 30
+	formListCommaSep : form .  (9)
+	form : form . AND form  (26)
+	form : form . OR form  (27)
+	form : form . EQUIV form  (28)
+	form : form . IMPL form  (29)
+
+	EQUIV  shift 43
+	IMPL  shift 44
+	OR  shift 45
+	AND  shift 46
+	TURNSTILE  reduce 9
+
+
+state 31
+	rule : RULE COLON LSQBRACE sequentListSemicolonSep . RSQBRACE rule_info sequent  (15)
+
+	RSQBRACE  shift 47
+	.  error
+
+
+state 32
+	sequentListSemicolonSep : sequent .  (11)
+
+	.  reduce 11
+
+
+state 33
+	idListCommaSep : IDENTIFIER COMMA idListCommaSep .  (8)
+
+	.  reduce 8
+
+
+state 34
+	derivation : LSQBRACE . derivationListSemicolonSep RSQBRACE deriv_info sequent  (17)
+	derivation : LSQBRACE . RSQBRACE deriv_info sequent  (18)
+
+	IDENTIFIER  shift 22
+	LPAREN  shift 23
+	LSQBRACE  shift 34
+	RSQBRACE  shift 48
+	TURNSTILE  shift 25
+	TRUE  shift 26
+	FALSE  shift 27
+	NOT  shift 28
+	.  error
+
+	derivation  goto 49
+	formListCommaSep  goto 29
+	form  goto 30
+	derivationListSemicolonSep  goto 50
+	sequent  goto 36
+
+
+state 35
+	proof : PROOF COLON derivation .  (6)
+
+	.  reduce 6
+
+
+state 36
+	derivation : sequent .  (19)
+
+	.  reduce 19
+
+
+state 37
+	form : form . AND form  (26)
+	form : form . OR form  (27)
+	form : form . EQUIV form  (28)
+	form : form . IMPL form  (29)
+	form : LPAREN form . RPAREN  (30)
+
+	RPAREN  shift 51
+	EQUIV  shift 43
+	IMPL  shift 44
+	OR  shift 45
+	AND  shift 46
+	.  error
+
+
+state 38
+	rule_info : LRULEPAR . IDENTIFIER RRULEPAR  (13)
+
+	IDENTIFIER  shift 52
+	.  error
+
+
+state 39
+	rule : RULE COLON LSQBRACE RSQBRACE rule_info . sequent  (16)
+
+	IDENTIFIER  shift 22
+	LPAREN  shift 23
+	TURNSTILE  shift 25
+	TRUE  shift 26
+	FALSE  shift 27
+	NOT  shift 28
+	.  error
+
+	formListCommaSep  goto 29
+	form  goto 30
+	sequent  goto 53
+
+
+state 40
+	sequent : TURNSTILE form .  (21)
+	form : form . AND form  (26)
+	form : form . OR form  (27)
+	form : form . EQUIV form  (28)
+	form : form . IMPL form  (29)
+
+	EQUIV  shift 43
+	IMPL  shift 44
+	OR  shift 45
+	AND  shift 46
+	RSQBRACE  reduce 21
+	EOF  reduce 21
+
+
+state 41
+	form : NOT form .  (25)
+	form : form . AND form  (26)
+	form : form . OR form  (27)
+	form : form . EQUIV form  (28)
+	form : form . IMPL form  (29)
+
+	.  reduce 25
+
+
+state 42
+	sequent : formListCommaSep TURNSTILE . form  (20)
+
+	IDENTIFIER  shift 22
+	LPAREN  shift 23
+	TRUE  shift 26
+	FALSE  shift 27
+	NOT  shift 28
+	.  error
+
+	form  goto 54
+
+
+state 43
+	form : form EQUIV . form  (28)
+
+	IDENTIFIER  shift 22
+	LPAREN  shift 23
+	TRUE  shift 26
+	FALSE  shift 27
+	NOT  shift 28
+	.  error
+
+	form  goto 55
+
+
+state 44
+	form : form IMPL . form  (29)
+
+	IDENTIFIER  shift 22
+	LPAREN  shift 23
+	TRUE  shift 26
+	FALSE  shift 27
+	NOT  shift 28
+	.  error
+
+	form  goto 56
+
+
+state 45
+	form : form OR . form  (27)
+
+	IDENTIFIER  shift 22
+	LPAREN  shift 23
+	TRUE  shift 26
+	FALSE  shift 27
+	NOT  shift 28
+	.  error
+
+	form  goto 57
+
+
+state 46
+	form : form AND . form  (26)
+
+	IDENTIFIER  shift 22
+	LPAREN  shift 23
+	TRUE  shift 26
+	FALSE  shift 27
+	NOT  shift 28
+	.  error
+
+	form  goto 58
+
+
+state 47
+	rule : RULE COLON LSQBRACE sequentListSemicolonSep RSQBRACE . rule_info sequent  (15)
+
+	LRULEPAR  shift 38
+	.  error
+
+	rule_info  goto 59
+
+
+state 48
+	derivation : LSQBRACE RSQBRACE . deriv_info sequent  (18)
+
+	LRULEPAR  shift 60
+	.  error
+
+	deriv_info  goto 61
+
+
+state 49
+	derivationListSemicolonSep : derivation .  (10)
+
+	.  reduce 10
+
+
+state 50
+	derivation : LSQBRACE derivationListSemicolonSep . RSQBRACE deriv_info sequent  (17)
+
+	RSQBRACE  shift 62
+	.  error
+
+
+state 51
+	form : LPAREN form RPAREN .  (30)
+
+	.  reduce 30
+
+
+state 52
+	rule_info : LRULEPAR IDENTIFIER . RRULEPAR  (13)
+
+	RRULEPAR  shift 63
+	.  error
+
+
+state 53
+	rule : RULE COLON LSQBRACE RSQBRACE rule_info sequent .  (16)
+
+	.  reduce 16
+
+
+state 54
+	sequent : formListCommaSep TURNSTILE form .  (20)
+	form : form . AND form  (26)
+	form : form . OR form  (27)
+	form : form . EQUIV form  (28)
+	form : form . IMPL form  (29)
+
+	EQUIV  shift 43
+	IMPL  shift 44
+	OR  shift 45
+	AND  shift 46
+	RSQBRACE  reduce 20
+	EOF  reduce 20
+
+
+state 55
+	form : form . AND form  (26)
+	form : form . OR form  (27)
+	form : form . EQUIV form  (28)
+	form : form EQUIV form .  (28)
+	form : form . IMPL form  (29)
+
+	EQUIV  shift 43
+	IMPL  shift 44
+	OR  shift 45
+	AND  shift 46
+	RPAREN  reduce 28
+	RSQBRACE  reduce 28
+	TURNSTILE  reduce 28
+	EOF  reduce 28
+
+
+state 56
+	form : form . AND form  (26)
+	form : form . OR form  (27)
+	form : form . EQUIV form  (28)
+	form : form . IMPL form  (29)
+	form : form IMPL form .  (29)
+
+	IMPL  shift 44
+	OR  shift 45
+	AND  shift 46
+	RPAREN  reduce 29
+	RSQBRACE  reduce 29
+	TURNSTILE  reduce 29
+	EQUIV  reduce 29
+	EOF  reduce 29
+
+
+state 57
+	form : form . AND form  (26)
+	form : form . OR form  (27)
+	form : form OR form .  (27)
+	form : form . EQUIV form  (28)
+	form : form . IMPL form  (29)
+
+	OR  shift 45
+	AND  shift 46
+	RPAREN  reduce 27
+	RSQBRACE  reduce 27
+	TURNSTILE  reduce 27
+	EQUIV  reduce 27
+	IMPL  reduce 27
+	EOF  reduce 27
+
+
+state 58
+	form : form . AND form  (26)
+	form : form AND form .  (26)
+	form : form . OR form  (27)
+	form : form . EQUIV form  (28)
+	form : form . IMPL form  (29)
+
+	AND  shift 46
+	RPAREN  reduce 26
+	RSQBRACE  reduce 26
+	TURNSTILE  reduce 26
+	EQUIV  reduce 26
+	IMPL  reduce 26
+	OR  reduce 26
+	EOF  reduce 26
+
+
+state 59
+	rule : RULE COLON LSQBRACE sequentListSemicolonSep RSQBRACE rule_info . sequent  (15)
+
+	IDENTIFIER  shift 22
+	LPAREN  shift 23
+	TURNSTILE  shift 25
+	TRUE  shift 26
+	FALSE  shift 27
+	NOT  shift 28
+	.  error
+
+	formListCommaSep  goto 29
+	form  goto 30
+	sequent  goto 64
+
+
+state 60
+	deriv_info : LRULEPAR . IDENTIFIER RRULEPAR  (14)
+
+	IDENTIFIER  shift 65
+	.  error
+
+
+state 61
+	derivation : LSQBRACE RSQBRACE deriv_info . sequent  (18)
+
+	IDENTIFIER  shift 22
+	LPAREN  shift 23
+	TURNSTILE  shift 25
+	TRUE  shift 26
+	FALSE  shift 27
+	NOT  shift 28
+	.  error
+
+	formListCommaSep  goto 29
+	form  goto 30
+	sequent  goto 66
+
+
+state 62
+	derivation : LSQBRACE derivationListSemicolonSep RSQBRACE . deriv_info sequent  (17)
+
+	LRULEPAR  shift 60
+	.  error
+
+	deriv_info  goto 67
+
+
+state 63
+	rule_info : LRULEPAR IDENTIFIER RRULEPAR .  (13)
+
+	.  reduce 13
+
+
+state 64
+	rule : RULE COLON LSQBRACE sequentListSemicolonSep RSQBRACE rule_info sequent .  (15)
+
+	.  reduce 15
+
+
+state 65
+	deriv_info : LRULEPAR IDENTIFIER . RRULEPAR  (14)
+
+	RRULEPAR  shift 68
+	.  error
+
+
+state 66
+	derivation : LSQBRACE RSQBRACE deriv_info sequent .  (18)
+
+	.  reduce 18
+
+
+state 67
+	derivation : LSQBRACE derivationListSemicolonSep RSQBRACE deriv_info . sequent  (17)
+
+	IDENTIFIER  shift 22
+	LPAREN  shift 23
+	TURNSTILE  shift 25
+	TRUE  shift 26
+	FALSE  shift 27
+	NOT  shift 28
+	.  error
+
+	formListCommaSep  goto 29
+	form  goto 30
+	sequent  goto 69
+
+
+state 68
+	deriv_info : LRULEPAR IDENTIFIER RRULEPAR .  (14)
+
+	.  reduce 14
+
+
+state 69
+	derivation : LSQBRACE derivationListSemicolonSep RSQBRACE deriv_info sequent .  (17)
+
+	.  reduce 17
+
+
+30 terminals, 18 nonterminals
+32 grammar rules, 70 states

@@ -1,0 +1,20 @@
+$$
+\infer[(impI)]{ \vdash   p \land q  \to  q \land p  }{
+  \infer[(conjI)]{ p \land q  \vdash  q \land p }{
+    \infer[(conjE2)]{ p \land q  \vdash q}{
+      \infer[(axiom)]{ p \land q  \vdash  p \land q }{
+      }
+    }
+    &
+    \infer[(conjE1)]{ p \land q  \vdash p}{
+      \infer[(axiom)]{ p \land q  \vdash  p \land q }{
+      }
+    }
+  }
+}
+$$
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End: 

@@ -1,0 +1,60 @@
+/*
+Intuistic rules of natural deduction
+(can be used together with classical rules)
+*/
+
+rule:
+[ |- A;   |- B ]
+---<conjI>---
+|- A /\ B
+
+rule:
+[ |- A /\ B ]
+---<conjE1>---
+|- A
+
+rule:
+[ |- A /\ B ]
+---<conjE2>---
+|- B
+
+rule:
+[ A |- B ]
+---<impI>---
+|- A -> B
+
+rule:
+[ |- A -> B; |- A ]
+---<impE>---
+|- B
+
+rule:
+[ A |- false ]
+---<notI>---
+|- ~ A
+
+rule:
+[ |- ~ A; |- A ]
+---<notE>---
+|- false
+
+rule:
+[ |- false ]
+---<falseE>---
+|- A
+
+rule:
+[ |- A ]
+---<disjI1>---
+|- A \/ B
+
+rule:
+[ |- B ]
+---<disjI2>---
+|- A \/ B
+
+rule:
+[ |- A \/ B; A |- C; B |- C ]
+---<disjE>---
+|- C
+

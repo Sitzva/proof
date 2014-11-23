@@ -1,0 +1,30 @@
+rule: // same as notE
+[ |- A; |- ~ A ]
+---<close>---
+|- false
+
+rule:
+[ |- A /\ B;  A, B |- false ]
+---<conjP>---
+|- false
+
+rule:
+[ |- ~ (A \/ B);  ~ A, ~ B |- false ]
+---<disjN>---
+|- false
+
+rule:
+[ |- A \/ B;  A |- false;  B |- false ]
+---<disjP>---
+|- false
+
+rule:
+[ |- ~ (A /\ B); ~ A |- false; ~ B |- false ]
+---<conjN>---
+|- false
+
+rule:
+[ |- ~ ~ A;  A |- false ]
+---<notN>---
+|- false
+

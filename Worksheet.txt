@@ -1,0 +1,11 @@
+			---===<<< WORKSHEET >>>===---
+
+Utilisation du checker : (Intéractif)
+	ocaml
+	#use "use.ml"
+	parse "../Examples/<nom>.prf
+
+mini.prf 
+	|- ( p /\ ~ q) /\ ~ r
+	--- conjE1 ---
+	|- p /\ ~q

@@ -1,0 +1,44 @@
+rule_files nat_ded_intuit;
+
+proof:
+
+[
+     [
+     [ a /\ (b \/ c) |- a /\ (b \/ c) ]
+     ---<conjE2>---
+     a /\ (b \/ c) |- b \/ c;
+
+     [
+        [
+          [ a /\ (b \/ c), b |- a /\ (b \/ c) ]
+          ---<conjE1>---
+          a /\ (b \/ c), b |- a;
+
+          a /\ (b \/ c), b |- b
+        ]
+        ---<conjI>---
+        a /\ (b \/ c), b |- (a /\ b)
+     ]
+     ---<disjI1>---
+     a /\ (b \/ c), b |- (a /\ b) \/ (a /\ c);
+
+     [
+        [
+          [ a /\ (b \/ c), c |- a /\ (b \/ c) ]
+          ---<conjE1>---
+          a /\ (b \/ c), c |- a;
+
+          a /\ (b \/ c), c |- c
+        ]
+        ---<conjI>---
+        a /\ (b \/ c), c |- (a /\ c)
+     ]
+     ---<disjI2>---
+     a /\ (b \/ c), c |- (a /\ b) \/ (a /\ c)
+     ]
+---<disjE>---
+a /\ (b \/ c) |- (a /\ b) \/ (a /\ c)
+]
+---<impI>---
+
+|- a /\ (b \/ c) -> (a /\ b) \/ (a /\ c)

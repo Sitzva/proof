@@ -1,0 +1,21 @@
+/*
+Classical rules of natural deduction
+(to be used together with intuitionistic rules)
+*/
+
+rule:
+[ |- ~ ~ A ]
+---<notnot>---
+|- A
+
+rule:
+[ ]
+---<tnd>---
+|- A \/ ~ A
+
+rule:
+[ ~ A |- A]
+---<clas>---
+|- A
+
+

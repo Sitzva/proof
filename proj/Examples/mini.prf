@@ -1,0 +1,8 @@
+rule_files mini;
+
+proof:
+
+[ |- (p /\ ~ q) /\ ~ r
+]
+---<conjE1>---
+|- (p /\ ~ q)
