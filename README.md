@@ -1,8 +1,9 @@
 proof
 =====
 
-Proof verification
+Caml project which recognize proof in human language and verify it in caml.
 
+<<<<<<< HEAD
 			---===<<< Structure du projet >>>===---
 
 3 dossiers principaux : Examples, Code, Doc
@@ -41,3 +42,5 @@ Questions :
 
 Semaine 2 (17/11/14)
 	-->
+=======
+>>>>>>> 6c376b383ed966e8dee9c6ebe8e2630d4f0f8af3
